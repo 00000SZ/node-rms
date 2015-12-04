@@ -10,50 +10,52 @@ angular.module('app', [
   $httpProvider.defaults.withCredentials = true;
 }])
 
-.controller('mainCtrl', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
+.controller('mainCtrl', ['$scope', '$http', '$interval', '$window',
+  function($scope, $http, $interval, $window) {
 
-  $scope.images = [];
+    $scope.images = [];
 
-  $http.get('/rms/images').then(function(data) {
-    return data.data;
-  }).then(function(arr) {
-    // randomise the image order
-    var n = arr.length;
-    var tempArr = [];
-    for (var i = 0; i < n - 1; i++) {
-      tempArr.push(arr.splice(Math.floor(Math.random() * arr.length), 1)[0]);
-    }
-    tempArr.push(arr[0]);
-    return tempArr;
-  }).then(function(images) {
-    $scope.images = images;
-    $scope.currentImage = $scope.images[0];
-    loadImage($scope.currentImage);
-    $interval(rotateImage, 3000);
-  });
-
-  var rotateImage = function() {
-    var current = $scope.images.indexOf($scope.currentImage);
-    if ((current + 2) <= $scope.images.length) {
-      $scope.currentImage = $scope.images[current + 1];
-    } else {
+    $http.get('/rms/images').then(function(data) {
+      return data.data;
+    }).then(function(arr) {
+      // randomise the image order
+      var n = arr.length;
+      var tempArr = [];
+      for (var i = 0; i < n - 1; i++) {
+        tempArr.push(arr.splice(Math.floor(Math.random() * arr.length), 1)[0]);
+      }
+      tempArr.push(arr[0]);
+      return tempArr;
+    }).then(function(images) {
+      $scope.images = images;
       $scope.currentImage = $scope.images[0];
-    }
-    loadImage($scope.currentImage);
-  };
+      loadImage($scope.currentImage);
+      $interval(rotateImage, 3000);
+    });
 
-  var loadImage = function(image) {
-    console.log(image);
-    var a = new Image();
-    a.onload = function() {
-      angular.element(document.getElementById('current-image')).empty();
-      angular.element(document.getElementById('current-image')).append(a);
+    var rotateImage = function() {
+      var current = $scope.images.indexOf($scope.currentImage);
+      if ((current + 2) <= $scope.images.length) {
+        $scope.currentImage = $scope.images[current + 1];
+      } else {
+        $scope.currentImage = $scope.images[0];
+      }
+      loadImage($scope.currentImage);
     };
-    a.onerror = function() {
-    };
-    a.src = image;
-  };
 
-}]);
+    var loadImage = function(image) {
+      var a = new Image();
+      a.height = $window.innerHeight - 50;
+      a.width = $window.innerWidth - 50;
+      a.onload = function() {
+        angular.element(document.getElementById('current-image')).empty();
+        angular.element(document.getElementById('current-image')).append(a);
+      };
+      a.onerror = function() {
+      };
+      a.src = image;
+    };
+
+  }]);
 
 angular.bootstrap(document, ['app']);
