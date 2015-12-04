@@ -1,0 +1,2 @@
+node uglifyjs.js
+node_modules/.bin/sequelize db:migrate
