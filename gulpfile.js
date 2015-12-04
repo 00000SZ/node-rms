@@ -8,6 +8,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var minifyHTML = require('gulp-minify-html');
 var uglifycss = require('gulp-uglifycss');
+var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 
 var paths = {
@@ -32,6 +33,7 @@ gulp.task('default', ['app', 'lint'], function() {
   gulp.watch(paths.lint, ['lint']);
   gulp.watch(paths.browserify, ['browserify']);
   gulp.watch(paths.css, ['css']);
+  gulp.watch(paths.html, ['minify-html']);
   console.log('gulp default task run');
 });
 
@@ -54,6 +56,8 @@ gulp.task('browserify', function() {
     })
     .bundle()
     .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('./client/public'));
 });
 

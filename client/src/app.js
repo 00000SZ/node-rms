@@ -10,4 +10,9 @@ angular.module('app', [
   $httpProvider.defaults.withCredentials = true;
 }])
 
+.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
+
+  $scope.test = 'BLAH';
+}]);
+
 angular.bootstrap(document, ['app']);
