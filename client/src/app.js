@@ -45,8 +45,7 @@ angular.module('app', [
 
     var loadImage = function(image) {
       var a = new Image();
-      a.height = $window.innerHeight - 50;
-      a.width = $window.innerWidth - 50;
+      a.height = $window.innerHeight;
       a.onload = function() {
         angular.element(document.getElementById('current-image')).empty();
         angular.element(document.getElementById('current-image')).append(a);
