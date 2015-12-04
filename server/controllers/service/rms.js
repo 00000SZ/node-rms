@@ -9,7 +9,7 @@ module.exports = function(config) {
     fs.readdir(config.imagePath, function(err, files) {
       if (files) {
         files = files.map(function(file) {
-          return '/public/images/' + file;
+          return config.imageBaseUrl + file;
         });
       } else {
         files = [];

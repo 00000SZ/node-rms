@@ -11,5 +11,6 @@ config.env = process.env.NODE_ENV || 'development';
 config.root = rootPath;
 
 config.imagePath = path.normalize(rootPath + '/..' + '/client/public/images');
+config.imageBaseUrl = '/public/images/';
 
 module.exports = config;
