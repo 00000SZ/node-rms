@@ -30,7 +30,7 @@ angular.module('app', [
       $scope.images = images;
       $scope.currentImage = $scope.images[0];
       loadImage($scope.currentImage);
-      $interval(rotateImage, 3000);
+      $interval(rotateImage, 10000);
     });
 
     var rotateImage = function() {
